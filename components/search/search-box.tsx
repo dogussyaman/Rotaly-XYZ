@@ -23,7 +23,12 @@ interface GuestCount {
   rooms: number
 }
 
-export function SearchBox() {
+interface SearchBoxProps {
+  variant?: 'default' | 'glass'
+}
+
+export function SearchBox({ variant = 'default' }: SearchBoxProps) {
+  const isGlass = variant === 'glass'
   const router = useRouter()
   const { t, locale } = useI18n()
   const dateLocale = locale === 'tr' ? tr : enUS
@@ -71,40 +76,37 @@ export function SearchBox() {
   }
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto">
-      {/* Glow Effect */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-blue-500/20 to-primary/20 rounded-3xl blur-xl opacity-70" />
-      
-      {/* Main Container */}
-      <div className="relative bg-card/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-primary/10 border border-border/50 p-5 md:p-6">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr_1fr_auto] gap-4 items-end">
+    <div className="relative w-full">
+      {/* Main Container — glass variant wraps externally, default keeps its own card */}
+      <div className={isGlass ? '' : 'relative'}>
+        <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1fr_1fr_1fr_auto] gap-4 items-end">
           {/* Destination */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">{t('search.destination')}</label>
+            <label className={`text-sm font-medium ${isGlass ? 'text-white/80' : 'text-muted-foreground'}`}>{t('search.destination')}</label>
             <div className="relative group">
-              <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+              <MapPin className={`absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 transition-colors ${isGlass ? 'text-white/60 group-focus-within:text-white' : 'text-muted-foreground group-focus-within:text-primary'}`} />
               <Input
                 placeholder={t('search.destinationPlaceholder')}
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
-                className="pl-12 h-14 bg-secondary/50 border-border/50 hover:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary rounded-xl text-base"
+                className={`pl-12 h-14 rounded-xl text-base ${isGlass ? 'bg-white/10 border-white/20 text-white placeholder:text-white/50 hover:border-white/40 focus-visible:ring-1 focus-visible:ring-white/60' : 'bg-secondary/50 border-border/50 hover:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary'}`}
               />
             </div>
           </div>
 
           {/* Check-in Date */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">{t('search.checkIn')}</label>
+            <label className={`text-sm font-medium ${isGlass ? 'text-white/80' : 'text-muted-foreground'}`}>{t('search.checkIn')}</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full h-14 justify-start text-left font-normal bg-secondary/50 border-border/50 hover:border-primary/50 hover:bg-secondary/70 rounded-xl text-base",
-                    !dateRange?.from && "text-muted-foreground"
+                    `w-full h-14 justify-start text-left font-normal rounded-xl text-base ${isGlass ? 'bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/40' : 'bg-secondary/50 border-border/50 hover:border-primary/50 hover:bg-secondary/70'}`,
+                    !dateRange?.from && (isGlass ? 'text-white/50' : 'text-muted-foreground')
                   )}
                 >
-                  <CalendarIcon className="mr-3 h-5 w-5 text-muted-foreground" />
+                  <CalendarIcon className={`mr-3 h-5 w-5 ${isGlass ? 'text-white/60' : 'text-muted-foreground'}`} />
                   {dateRange?.from ? (
                     format(dateRange.from, "d MMM yyyy", { locale: dateLocale })
                   ) : (
@@ -131,17 +133,17 @@ export function SearchBox() {
 
           {/* Check-out Date */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">{t('search.checkOut')}</label>
+            <label className={`text-sm font-medium ${isGlass ? 'text-white/80' : 'text-muted-foreground'}`}>{t('search.checkOut')}</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full h-14 justify-start text-left font-normal bg-secondary/50 border-border/50 hover:border-primary/50 hover:bg-secondary/70 rounded-xl text-base",
-                    !dateRange?.to && "text-muted-foreground"
+                    `w-full h-14 justify-start text-left font-normal rounded-xl text-base ${isGlass ? 'bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/40' : 'bg-secondary/50 border-border/50 hover:border-primary/50 hover:bg-secondary/70'}`,
+                    !dateRange?.to && (isGlass ? 'text-white/50' : 'text-muted-foreground')
                   )}
                 >
-                  <CalendarIcon className="mr-3 h-5 w-5 text-muted-foreground" />
+                  <CalendarIcon className={`mr-3 h-5 w-5 ${isGlass ? 'text-white/60' : 'text-muted-foreground'}`} />
                   {dateRange?.to ? (
                     format(dateRange.to, "d MMM yyyy", { locale: dateLocale })
                   ) : (
@@ -168,14 +170,14 @@ export function SearchBox() {
 
           {/* Guests */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">{t('search.guests')}</label>
+            <label className={`text-sm font-medium ${isGlass ? 'text-white/80' : 'text-muted-foreground'}`}>{t('search.guests')}</label>
             <Popover open={guestsOpen} onOpenChange={setGuestsOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
-                  className="w-full h-14 justify-start text-left font-normal bg-secondary/50 border-border/50 hover:border-primary/50 hover:bg-secondary/70 rounded-xl text-base"
+                  className={`w-full h-14 justify-start text-left font-normal rounded-xl text-base ${isGlass ? 'bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/40' : 'bg-secondary/50 border-border/50 hover:border-primary/50 hover:bg-secondary/70'}`}
                 >
-                  <Users className="mr-3 h-5 w-5 text-muted-foreground" />
+                  <Users className={`mr-3 h-5 w-5 ${isGlass ? 'text-white/60' : 'text-muted-foreground'}`} />
                   {formatGuestsLabel()}
                 </Button>
               </PopoverTrigger>
@@ -274,7 +276,7 @@ export function SearchBox() {
           {/* Search Button */}
           <Button
             size="lg"
-            className="h-14 px-8 rounded-xl bg-gradient-to-r from-primary to-blue-600 hover:opacity-90 transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 group"
+            className="h-14 w-full px-14 rounded-xl bg-gradient-to-r from-primary to-blue-600 hover:opacity-90 transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 group"
             onClick={handleSearch}
           >
             <Search className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
@@ -284,4 +286,5 @@ export function SearchBox() {
       </div>
     </div>
   )
+
 }
