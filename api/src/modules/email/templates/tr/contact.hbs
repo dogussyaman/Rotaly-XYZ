@@ -1,0 +1,35 @@
+{{> header title="İletişim Mesajı"}}
+
+      <h1 class="title support">Yeni İletişim Mesajı</h1>
+
+      <div class="content">
+        <p>Rotaly XYZ iletişim formu üzerinden yeni bir mesaj alındı.</p>
+      </div>
+
+      <div class="support-details">
+        <div class="detail-row">
+          <span class="detail-label">Gönderen:</span>
+          <span class="detail-value">{{fromName}} ({{fromEmail}})</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Konu:</span>
+          <span class="detail-value">{{subject}}</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Tarih:</span>
+          <span class="detail-value">{{date}}</span>
+        </div>
+      </div>
+
+      <div class="message-container">
+        <h3 class="message-title">Mesaj:</h3>
+        <div class="message-content">{{message}}</div>
+      </div>
+
+      <div class="reply-notice">
+        <strong>📬 Yanıt Talimatları:</strong> {{fromName}} kişisine yanıt vermek için doğrudan bu e-postaya yanıt verebilirsiniz. Yanıtınız {{fromEmail}} adresine gönderilecektir.
+      </div>
+
+{{> footer footerMessage="Bu e-posta support@rotaly-xyz.com adresinden Rotaly XYZ iletişim formu aracılığıyla iletilmiştir."}}

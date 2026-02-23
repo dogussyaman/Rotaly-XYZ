@@ -1,0 +1,122 @@
+{{> header title="Rezervasyon İptal Edildi"}}
+
+      <h1 class="title reset">Rezervasyon İptal Edildi</h1>
+
+      <div class="greeting">Merhaba <span class="highlight">{{name}}</span>,</div>
+
+      <div class="content">
+        <p>
+          Sizinle vedalaşmak zorunda kaldığımız için üzgünüz. <strong>{{hotelName}}</strong> rezervasyonunuz talep edildiği üzere başarıyla iptal edildi.
+        </p>
+
+        <p>
+          Bu e-posta rezervasyonunuzun iptal edildiğini onaylar ve geçerli iadelerle ilgili bilgi sağlar.
+        </p>
+      </div>
+
+      <div class="security-notice">
+        <strong>📋 İptal Edilen Rezervasyon Detayları</strong><br>
+        Onay Numarası: <strong>{{confirmationNumber}}</strong><br>
+        İptal Tarihi: <strong>{{cancellationDate}}</strong><br>
+        İptal Eden: <strong>{{cancelledBy}}</strong>
+      </div>
+
+      <div class="content">
+        <h3 style="color: #2c5aa0; margin-bottom: 15px;">🏨 Orijinal Rezervasyon Detayları:</h3>
+        
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-title">🏨 Otel</div>
+            <div class="feature-description">{{hotelName}}</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">📅 Giriş</div>
+            <div class="feature-description">{{checkInDate}}</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">📅 Çıkış</div>
+            <div class="feature-description">{{checkOutDate}}</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">🌙 Süre</div>
+            <div class="feature-description">{{nightCount}} gece</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">👥 Misafir</div>
+            <div class="feature-description">{{guestCount}} misafir</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">🛏️ Oda</div>
+            <div class="feature-description">{{roomType}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <h3 style="color: #2c5aa0; margin-bottom: 15px;">💰 İade Bilgileri:</h3>
+        
+        <div class="support-details">
+          <div class="detail-row">
+            <span class="detail-label">Orijinal Tutar:</span>
+            <span class="detail-value">{{originalAmount}} TL</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">İptal Ücreti:</span>
+            <span class="detail-value">{{cancellationFee}} TL</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">İade Tutarı:</span>
+            <span class="detail-value"><strong>{{refundAmount}} TL</strong></span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">İade Yöntemi:</span>
+            <span class="detail-value">Orijinal ödeme yöntemi</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">İşlem Süresi:</span>
+            <span class="detail-value">{{refundProcessingTime}}</span>
+          </div>
+        </div>
+      </div>
+
+      {{#if cancellationReason}}
+      <div class="content">
+        <h3 style="color: #2c5aa0; margin-bottom: 15px;">📝 İptal Nedeni:</h3>
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c;">
+          {{cancellationReason}}
+        </div>
+      </div>
+      {{/if}}
+
+      <div class="content">
+        <h3 style="color: #2c5aa0; margin-bottom: 15px;">🔄 Sırada Ne Var?</h3>
+        <p>
+          • İadeniz {{refundProcessingTime}} içinde işleme alınacaktır<br>
+          • İade tamamlandığında e-posta onayı alacaksınız<br>
+          • İade orijinal ödeme yönteminizde görünecektir<br>
+          • Gerekirse alternatif konaklama seçenekleri için web sitemizi kontrol edin
+        </p>
+      </div>
+
+      <div class="content">
+        <p>
+          Gelecekte tekrar size hizmet verebilmeyi umuyoruz. Bu iptal hakkında sorularınız varsa veya yeni bir rezervasyon için yardıma ihtiyacınız varsa, 
+          lütfen <a href="mailto:support@rotaly-xyz.com">support@rotaly-xyz.com</a> adresinden bizimle iletişime geçin.
+        </p>
+
+        <p>
+          Rotaly XYZ'yi seçtiğiniz için teşekkür ederiz.<br />
+          <strong>Rotaly XYZ Ekibi</strong>
+        </p>
+      </div>
+
+{{> footer footerMessage="Bu otomatik bir iptal onayıdır. Lütfen kayıtlarınız için bu e-postayı saklayın."}}

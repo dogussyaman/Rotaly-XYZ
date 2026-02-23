@@ -1,0 +1,79 @@
+{{> header title="Ödeme Onaylandı"}}
+
+      <h1 class="title welcome">Ödemeniz Başarıyla Alındı!</h1>
+
+      <div class="greeting">Merhaba <span class="highlight">{{name}}</span>,</div>
+
+      <div class="content">
+        <p>
+          Harika haber! Ödemeniz başarıyla işlendi ve rezervasyonunuz onaylandı.
+        </p>
+
+        <p>
+          Sizi misafirimiz olarak ağırlamaktan mutluluk duyuyoruz ve size mükemmel bir deneyim sunmayı sabırsızlıkla bekliyoruz.
+        </p>
+      </div>
+
+      <div class="welcome-notice">
+        <strong>💳 Ödeme Detayları</strong><br>
+        {{totalAmount}} TL tutarındaki ödemeniz ****{{cardLastFour}} ile biten kartınızdan başarıyla tahsil edilmiştir.
+      </div>
+
+      <div class="content">
+        <h3 style="color: #2c5aa0; margin-bottom: 15px;">📋 Rezervasyon Özeti:</h3>
+        
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-title">🏨 Otel</div>
+            <div class="feature-description">{{hotelName}}</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">📅 Giriş</div>
+            <div class="feature-description">{{checkInDate}} saat {{checkInTime}}</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">📅 Çıkış</div>
+            <div class="feature-description">{{checkOutDate}} saat {{checkOutTime}}</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">👥 Misafir</div>
+            <div class="feature-description">{{guestCount}} misafir</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">🛏️ Oda Tipi</div>
+            <div class="feature-description">{{roomType}}</div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-title">Onay Numarası</div>
+            <div class="feature-description">{{confirmationNumber}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <h3 style="color: #2c5aa0; margin-bottom: 15px;">🎯 Sırada Ne Var?</h3>
+        <p>
+          • Detaylı check-in talimatları ile ayrı bir e-posta alacaksınız<br>
+          • Otel resepsiyonunda onay numaranızı gösterin<br>
+          • Konaklamanızın tadını çıkarın ve yardıma ihtiyacınız olursa bizimle iletişime geçin
+        </p>
+      </div>
+
+      <div class="content">
+        <p>
+          Rezervasyonunuz hakkında sorularınız varsa, lütfen {{confirmationNumber}} onay numaranızı belirterek 
+          <a href="mailto:support@rotaly-xyz.com">support@rotaly-xyz.com</a> adresinden bizimle iletişime geçmekten çekinmeyin.
+        </p>
+
+        <p>
+          Rotaly XYZ'yi seçtiğiniz için teşekkür ederiz!<br />
+          <strong>Rotaly XYZ Ekibi</strong>
+        </p>
+      </div>
+
+{{> footer footerMessage="Bu otomatik bir ödeme onay mesajıdır. Lütfen kayıtlarınız için bu e-postayı saklayın."}}
