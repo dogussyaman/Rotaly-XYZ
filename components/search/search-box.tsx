@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import { tr, enUS } from 'date-fns/locale'
-import { CalendarIcon, MapPin, Users, Search, Minus, Plus } from 'lucide-react'
+import { CalendarIcon, MapPin, Users, Search, Minus, Plus, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -15,7 +15,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { useI18n } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
+import { useLocationSearch } from '@/hooks/use-location-search'
 import type { DateRange } from 'react-day-picker'
+import type { Location } from '@/lib/api/locations'
 
 interface GuestCount {
   adults: number
@@ -34,6 +36,7 @@ export function SearchBox({ variant = 'default' }: SearchBoxProps) {
   const dateLocale = locale === 'tr' ? tr : enUS
 
   const [destination, setDestination] = useState('')
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null)
   const [dateRange, setDateRange] = useState<DateRange | undefined>()
   const [guests, setGuests] = useState<GuestCount>({
     adults: 1,
@@ -41,10 +44,24 @@ export function SearchBox({ variant = 'default' }: SearchBoxProps) {
     rooms: 1,
   })
   const [guestsOpen, setGuestsOpen] = useState(false)
+  const [destinationOpen, setDestinationOpen] = useState(false)
+  const destinationInputRef = useRef<HTMLInputElement>(null)
+
+  // Location search hook'unu kullan
+  const { query, setQuery, locations, isLoading, error } = useLocationSearch()
 
   const handleSearch = () => {
     const params = new URLSearchParams()
-    if (destination) params.set('destination', destination)
+    
+    // Lokasyon parametresi olarak seçilen lokasyonun koordinatlarını veya adını kullan
+    const destinationValue = selectedLocation ? selectedLocation.display_name : destination
+    if (destinationValue) params.set('destination', destinationValue)
+    
+    if (selectedLocation) {
+      params.set('lat', selectedLocation.lat.toString())
+      params.set('lon', selectedLocation.lon.toString())
+    }
+    
     if (dateRange?.from) params.set('checkIn', dateRange.from.toISOString())
     if (dateRange?.to) params.set('checkOut', dateRange.to.toISOString())
     params.set('adults', guests.adults.toString())
@@ -52,6 +69,19 @@ export function SearchBox({ variant = 'default' }: SearchBoxProps) {
     params.set('rooms', guests.rooms.toString())
 
     router.push(`/search?${params.toString()}`)
+  }
+
+  const handleLocationSelect = (location: Location) => {
+    setSelectedLocation(location)
+    setDestination(location.display_name)
+    setDestinationOpen(false)
+    setQuery('') // Arama sorgusunu temizle
+  }
+
+  const handleDestinationChange = (value: string) => {
+    setDestination(value)
+    setQuery(value) // Hook'ün debounced aramasını tetikle
+    setSelectedLocation(null) // Manual yazı girildiyse seçimi temizle
   }
 
   const updateGuests = (type: keyof GuestCount, delta: number) => {
@@ -81,18 +111,63 @@ export function SearchBox({ variant = 'default' }: SearchBoxProps) {
       <div className={isGlass ? '' : 'relative'}>
         <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1fr_1fr_1fr_auto] gap-4 items-end">
           {/* Destination */}
-          <div className="space-y-2">
-            <label className={`text-sm font-medium ${isGlass ? 'text-white/80' : 'text-muted-foreground'}`}>{t('search.destination')}</label>
-            <div className="relative group">
-              <MapPin className={`absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 transition-colors ${isGlass ? 'text-white/60 group-focus-within:text-white' : 'text-muted-foreground group-focus-within:text-primary'}`} />
-              <Input
-                placeholder={t('search.destinationPlaceholder')}
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                className={`pl-12 h-14 rounded-xl text-base ${isGlass ? 'bg-white/10 border-white/20 text-white placeholder:text-white/50 hover:border-white/40 focus-visible:ring-1 focus-visible:ring-white/60' : 'bg-secondary/50 border-border/50 hover:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary'}`}
-              />
-            </div>
-          </div>
+          <Popover open={destinationOpen} onOpenChange={setDestinationOpen}>
+            <PopoverTrigger asChild>
+              <div className="space-y-2">
+                <label className={`text-sm font-medium ${isGlass ? 'text-white/80' : 'text-muted-foreground'}`}>{t('search.destination')}</label>
+                <div className="relative group">
+                  <MapPin className={`absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 transition-colors ${isGlass ? 'text-white/60 group-focus-within:text-white' : 'text-muted-foreground group-focus-within:text-primary'}`} />
+                  <Input
+                    ref={destinationInputRef}
+                    placeholder={t('search.destinationPlaceholder')}
+                    value={destination}
+                    onChange={(e) => handleDestinationChange(e.target.value)}
+                    className={`pl-12 h-14 rounded-xl text-base ${isGlass ? 'bg-white/10 border-white/20 text-white placeholder:text-white/50 hover:border-white/40 focus-visible:ring-1 focus-visible:ring-white/60' : 'bg-secondary/50 border-border/50 hover:border-primary/50 focus-visible:ring-1 focus-visible:ring-primary'}`}
+                  />
+                  {isLoading && (
+                    <Loader2 className={`absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 animate-spin ${isGlass ? 'text-white/60' : 'text-muted-foreground'}`} />
+                  )}
+                </div>
+              </div>
+            </PopoverTrigger>
+
+            <PopoverContent className="w-96 rounded-xl border-border/50 p-0" align="start" side="bottom">
+              <div className="max-h-96 overflow-y-auto">
+                {locations && locations.length > 0 ? (
+                  <ul className="p-2 space-y-1">
+                    {locations.map((location) => (
+                      <li key={location.id}>
+                        <button
+                          onClick={() => handleLocationSelect(location)}
+                          className={cn(
+                            'w-full text-left px-3 py-2 rounded-lg transition-colors',
+                            isGlass
+                              ? 'hover:bg-white/10'
+                              : 'hover:bg-secondary/50'
+                          )}
+                        >
+                          <p className={`font-medium ${isGlass ? 'text-white' : 'text-foreground'}`}>
+                            {location.name}
+                          </p>
+                          <p className={`text-sm ${isGlass ? 'text-white/60' : 'text-muted-foreground'}`}>
+                            {location.display_name}
+                          </p>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : error ? (
+                  <div className="p-4 text-center text-sm text-destructive">
+                    {error}
+                  </div>
+                ) : (
+                  <div className="p-4 text-center text-sm text-muted-foreground">
+                    {t('search.noResults')}
+                  </div>
+                )}
+              </div>
+            </PopoverContent>
+          </Popover>
 
           {/* Check-in Date */}
           <div className="space-y-2">
