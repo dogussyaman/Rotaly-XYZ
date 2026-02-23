@@ -15,9 +15,10 @@ type Props = {
 export default function LayoutWrapper({ children }: Props) {
   const pathname = usePathname();
   const isDashboard = pathname.includes("/dashboard");
+  const isAuth = pathname.includes("/(auth)") || pathname.includes("/login") || pathname.includes("/register") || pathname.includes("/reset-password");
 
-  if (isDashboard) {
-    // Dashboard layout - navbar ve footer yok
+  if (isDashboard || isAuth) {
+    // Dashboard ve Auth layout - navbar ve footer yok
     return (
       <div className="min-h-screen bg-background">
         {children}

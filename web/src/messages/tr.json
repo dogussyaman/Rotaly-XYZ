@@ -1533,13 +1533,15 @@
     }
   },
   "LoginPage": {
+    "title": "Hoş Geldiniz",
+    "subtitle": "Hesabınıza giriş yapın ve harika otelleri keşfedin",
     "welcome": "Rotaly'ye Hoş Geldiniz!",
-    "subtitle": "E-posta adresinize giriş yapın ve otel rezervasyonlarınızı yönetin",
+    "subtitleAlt": "E-posta adresinize giriş yapın ve otel rezervasyonlarınızı yönetin",
     "email": "E-posta Adresi",
     "password": "Şifre",
-    "forgotPassword": "Şifremi Unuttum",
+    "forgotPassword": "Şifremi Unuttum?",
     "loginButton": "Giriş Yap",
-    "noAccount": "Hesabınız yok mu?",
+    "noAccount": "Henüz hesabınız yok mu?",
     "register": "Kayıt Ol",
     "invalidEmail": "Geçersiz e-posta adresi",
     "invalidPassword": "Geçersiz şifre",
