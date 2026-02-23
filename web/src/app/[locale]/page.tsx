@@ -169,22 +169,23 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative w-full flex flex-col items-center overflow-hidden">
         <div
-          className="absolute -top-6 left-0 w-full h-[400px] flex justify-center items-start pointer-events-none z-0 bg-gray-100 dark:bg-gray-800"
+          className="absolute -top-6 left-0 w-full h-[380px] flex justify-center items-start pointer-events-none z-0 opacity-40 dark:opacity-30"
           style={{
             mask: "url('/images/map.svg') no-repeat center / cover",
             WebkitMask: "url('/images/map.svg') no-repeat center / cover",
+            background: "linear-gradient(135deg, oklch(0.97 0.01 240) 0%, oklch(0.92 0.02 260) 100%)",
           }}
-        ></div>
-        <div className="relative z-10 w-full flex flex-col items-center justify-center pt-8 sm:pt-10 md:pt-12 pb-8 sm:pb-10 md:pb-12 px-4 text-center">
-          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4">
+        />
+        <div className="relative z-10 w-full flex flex-col items-center justify-center pt-10 sm:pt-12 md:pt-16 pb-6 sm:pb-8 px-4 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-5 tracking-tight text-foreground">
             {t("heroHeading")}
           </h1>
-          <p className="text-sm sm:text-base md:text-lg max-w-2xl mb-6 sm:mb-8 text-gray-400 dark:text-gray-300 font-medium">
+          <p className="text-base sm:text-lg md:text-xl max-w-2xl text-muted-foreground font-medium leading-relaxed">
             {t("heroSubheading")}
           </p>
         </div>
 
-        <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] -mt-8 sm:-mt-10 md:-mt-12 z-20">
+        <div className="relative w-full h-[42vh] sm:h-[52vh] md:h-[62vh] max-h-[520px] -mt-4 z-20 px-4">
           <Swiper
             modules={[Autoplay]}
             spaceBetween={0}
@@ -194,7 +195,7 @@ export default function HomePage() {
               disableOnInteraction: false,
             }}
             loop={true}
-            className="w-full h-full rounded-[32px] overflow-hidden"
+            className="w-full h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5 dark:ring-white/5"
           >
             {images.map((image, index) => (
               <SwiperSlide key={index}>
@@ -207,38 +208,38 @@ export default function HomePage() {
                     priority={index === 0}
                     sizes="100vw"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
 
-        <div className="relative z-40 w-full max-w-6xl -mt-36 sm:-mt-18 md:-mt-20 px-4 mb-8 sm:mb-10 md:mb-12">
+        <div className="relative z-40 w-full max-w-5xl -mt-24 sm:-mt-20 md:-mt-24 px-4 mb-12 sm:mb-16">
           <BookingSearch handleSearch={handleSearch} />
-          
         </div>
 
         {/* Categories Section */}
-        <section className="max-w-7xl mx-auto px-4 py-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center md:text-left">
+        <section className="w-full px-4 py-14 sm:py-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 md:mb-10 text-center md:text-left">
             {t("popularCategoriesHeading")}
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
             {categories.map((category) => (
               <div
                 key={category.name}
-                className="w-full max-w-[160px] flex items-center justify-center space-x-3 p-4 rounded-full bg-gray-100 shadow-sm cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 border border-gray-300 dark:bg-gray-800 dark:border-gray-700"
+                className="group flex items-center justify-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-2xl bg-card border border-border shadow-sm cursor-pointer hover:shadow-md hover:border-primary/20 hover:bg-accent/50 dark:hover:bg-accent/30 transition-all duration-200"
               >
-                <div className="w-10 h-8 flex items-center justify-center rounded-full">
+                <div className="flex shrink-0 w-9 h-9 sm:w-10 sm:h-10 items-center justify-center rounded-xl bg-muted/80 group-hover:bg-primary/10 transition-colors">
                   <Image
                     src={category.icon}
                     alt={category.name}
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 rounded-full"
+                    width={28}
+                    height={28}
+                    className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
                   />
                 </div>
-                <span className="text-sm font-medium text-foreground whitespace-nowrap">
+                <span className="text-xs sm:text-sm font-medium text-foreground whitespace-nowrap truncate">
                   {category.label}
                 </span>
               </div>
@@ -247,25 +248,30 @@ export default function HomePage() {
         </section>
 
         {/* Destinations Section */}
-        <section className="max-w-7xl mx-auto px-4 py-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center md:text-left">
+        <section className="w-full px-4 py-14 sm:py-16 border-t border-border/60">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 md:mb-10 text-center md:text-left">
             {t("destinationsHeading")}
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-8 justify-items-center">
             {destinations.map((destination) => (
               <div
                 key={destination.name}
-                className="flex flex-col items-center space-y-3 cursor-pointer hover:scale-105 transition-transform duration-300"
+                className="group flex flex-col items-center gap-4 cursor-pointer"
               >
-                <div className="w-40 h-60 rounded-full overflow-hidden shadow-lg border-4 border-gray-200 dark:border-gray-700 relative">
+                <div className="relative w-36 h-44 sm:w-40 sm:h-56 rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5 dark:ring-white/5 transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-xl">
                   <Image
                     src={destination.image}
                     alt={destination.name}
                     fill
-                    className="object-cover w-full h-full rounded-full"
+                    className="object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 640px) 160px, 180px"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="absolute bottom-0 left-0 right-0 p-3 text-center text-sm font-semibold text-white drop-shadow-lg translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    {destination.name}
+                  </span>
                 </div>
-                <span className="text-lg font-semibold text-foreground text-center">
+                <span className="text-base font-semibold text-foreground text-center group-hover:text-primary transition-colors">
                   {destination.name}
                 </span>
               </div>
@@ -274,11 +280,13 @@ export default function HomePage() {
         </section>
 
         {/* Special Offers */}
-        <section className="max-w-7xl mx-auto px-4 my-12">
-          <h2 className="text-lg font-semibold text-foreground mb-6">
-            {t("specialOffers")}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <section className="w-full px-4 py-14 sm:py-16 border-t border-border/60">
+          <div className="flex items-center justify-between mb-8 md:mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+              {t("specialOffers")}
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {specialOffers.map((offer) => {
               const cancelText = offer.cancel
                 ? "Ücretsiz iptal"

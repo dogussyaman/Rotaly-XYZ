@@ -31,14 +31,14 @@ export default function LayoutWrapper({ children }: Props) {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      <main className="flex-1">
-        <div className="max-w-7xl mx-auto min-h-screen">
+      <div className="flex-1 flex flex-col min-h-0">
+        <div className="flex-1 w-full max-w-7xl mx-auto px-0 min-h-[60vh]">
           {children}
         </div>
         <Toaster position="bottom-right" reverseOrder={false} />
         <ChatWidget />
         <ChatWidgetMobile />
-      </main>
+      </div>
       <Footer />
     </div>
   );

@@ -55,7 +55,7 @@ const SearchBar = () => {
             if (e.target.value.length > 2) setIsListOpen(true);
           }}
           placeholder={t("searchPlaceholder")}
-          className="pl-10 rounded-lg border border-gray-300 shadow-sm focus:ring-1 focus:ring-gray-900 focus:border-gray-900"
+          className="pl-10 pr-10 rounded-xl border border-input bg-muted/30 focus:ring-2 focus:ring-ring focus:border-primary transition-colors"
         />
         <SearchIcon className="absolute left-3 top-2 h-5 w-5 pointer-events-none opacity-50" />
         <Mic
@@ -66,8 +66,8 @@ const SearchBar = () => {
 
         {isListOpen && query.length > 2 && (
           <div
-            className="absolute top-full left-0 right-0 mt-1 bg-background border border-gray-200 rounded-lg shadow-lg z-50
-                     max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent"
+            className="absolute top-full left-0 right-0 mt-2 bg-popover border border-border rounded-xl shadow-lg z-50
+                     max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-muted-foreground/30 scrollbar-track-transparent ring-1 ring-black/5 dark:ring-white/5"
           >
             {filteredHotels.length > 0 ? (
               filteredHotels.map((hotel) => (
