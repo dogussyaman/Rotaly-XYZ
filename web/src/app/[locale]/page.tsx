@@ -221,59 +221,99 @@ export default function HomePage() {
 
         {/* Categories Section */}
         <section className="w-full px-4 py-14 sm:py-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 md:mb-10 text-center md:text-left">
-            {t("popularCategoriesHeading")}
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
-            {categories.map((category) => (
-              <div
-                key={category.name}
-                className="group flex items-center justify-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-2xl bg-card border border-border shadow-sm cursor-pointer hover:shadow-md hover:border-primary/20 hover:bg-accent/50 dark:hover:bg-accent/30 transition-all duration-200"
-              >
-                <div className="flex shrink-0 w-9 h-9 sm:w-10 sm:h-10 items-center justify-center rounded-xl bg-muted/80 group-hover:bg-primary/10 transition-colors">
-                  <Image
-                    src={category.icon}
-                    alt={category.name}
-                    width={28}
-                    height={28}
-                    className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
-                  />
+          <div className="flex flex-col items-center mb-10 md:mb-12">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-primary/70 mb-3 px-3 py-1 rounded-full bg-primary/8 border border-primary/15">
+              {t("popularCategoriesHeading")}
+            </span>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center">
+              {t("popularCategoriesSubheading")}
+            </h2>
+          </div>
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-3 sm:gap-4">
+            {categories.map((category, i) => {
+              const palettes = [
+                { grad: "from-blue-500/20 to-indigo-500/10 dark:from-blue-500/15 dark:to-indigo-500/8", icon: "bg-blue-500/20 group-hover:bg-blue-500/35", ring: "group-hover:border-blue-400/40" },
+                { grad: "from-violet-500/20 to-purple-500/10 dark:from-violet-500/15 dark:to-purple-500/8", icon: "bg-violet-500/20 group-hover:bg-violet-500/35", ring: "group-hover:border-violet-400/40" },
+                { grad: "from-emerald-500/20 to-green-500/10 dark:from-emerald-500/15 dark:to-green-500/8", icon: "bg-emerald-500/20 group-hover:bg-emerald-500/35", ring: "group-hover:border-emerald-400/40" },
+                { grad: "from-amber-500/20 to-yellow-500/10 dark:from-amber-500/15 dark:to-yellow-500/8", icon: "bg-amber-500/20 group-hover:bg-amber-500/35", ring: "group-hover:border-amber-400/40" },
+                { grad: "from-orange-500/20 to-red-400/10 dark:from-orange-500/15 dark:to-red-400/8", icon: "bg-orange-500/20 group-hover:bg-orange-500/35", ring: "group-hover:border-orange-400/40" },
+                { grad: "from-teal-500/20 to-cyan-500/10 dark:from-teal-500/15 dark:to-cyan-500/8", icon: "bg-teal-500/20 group-hover:bg-teal-500/35", ring: "group-hover:border-teal-400/40" },
+                { grad: "from-rose-500/20 to-pink-500/10 dark:from-rose-500/15 dark:to-pink-500/8", icon: "bg-rose-500/20 group-hover:bg-rose-500/35", ring: "group-hover:border-rose-400/40" },
+                { grad: "from-lime-500/20 to-green-400/10 dark:from-lime-500/15 dark:to-green-400/8", icon: "bg-lime-500/20 group-hover:bg-lime-500/35", ring: "group-hover:border-lime-400/40" },
+              ];
+              const p = palettes[i % palettes.length];
+              return (
+                <div
+                  key={category.name}
+                  className={`group flex flex-col items-center justify-center gap-3 p-4 sm:p-5 rounded-2xl bg-gradient-to-br ${p.grad} border border-border/60 ${p.ring} shadow-sm cursor-pointer hover:shadow-lg hover:scale-[1.04] hover:-translate-y-0.5 transition-all duration-200`}
+                >
+                  <div className={`flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${p.icon} transition-colors`}>
+                    <Image
+                      src={category.icon}
+                      alt={category.name}
+                      width={32}
+                      height={32}
+                      className="w-7 h-7 sm:w-8 sm:h-8 object-contain drop-shadow-sm"
+                    />
+                  </div>
+                  <span className="text-xs sm:text-sm font-semibold text-foreground text-center leading-tight">
+                    {category.label}
+                  </span>
                 </div>
-                <span className="text-xs sm:text-sm font-medium text-foreground whitespace-nowrap truncate">
-                  {category.label}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
         {/* Destinations Section */}
         <section className="w-full px-4 py-14 sm:py-16 border-t border-border/60">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 md:mb-10 text-center md:text-left">
-            {t("destinationsHeading")}
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-8 justify-items-center">
-            {destinations.map((destination) => (
+          <div className="flex flex-col items-center mb-10 md:mb-12">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-primary/70 mb-3 px-3 py-1 rounded-full bg-primary/8 border border-primary/15">
+              Popüler Destinasyonlar
+            </span>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center">
+              {t("destinationsHeading")}
+            </h2>
+          </div>
+
+          {/* Bento Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4" style={{ gridTemplateRows: "220px 220px 160px" }}>
+            {destinations.map((destination, i) => (
               <div
                 key={destination.name}
-                className="group flex flex-col items-center gap-4 cursor-pointer"
+                className={[
+                  "relative overflow-hidden rounded-3xl cursor-pointer group shadow-md hover:shadow-2xl transition-all duration-300",
+                  i === 0 ? "row-span-2" : "",
+                  i === 5 ? "col-span-2 lg:col-span-3" : "",
+                ].join(" ")}
               >
-                <div className="relative w-36 h-44 sm:w-40 sm:h-56 rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5 dark:ring-white/5 transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-xl">
-                  <Image
-                    src={destination.image}
-                    alt={destination.name}
-                    fill
-                    className="object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 640px) 160px, 180px"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <span className="absolute bottom-0 left-0 right-0 p-3 text-center text-sm font-semibold text-white drop-shadow-lg translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                    {destination.name}
+                <Image
+                  src={destination.image}
+                  alt={destination.name}
+                  fill
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                  sizes="(max-width: 640px) 50vw, 33vw"
+                />
+                {/* Always-visible gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                {/* Top badge */}
+                <div className="absolute top-3 left-3">
+                  <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-semibold text-white/90 bg-white/15 backdrop-blur-md border border-white/20 rounded-full px-2.5 py-1">
+                    ✦ Öne Çıkan
                   </span>
                 </div>
-                <span className="text-base font-semibold text-foreground text-center group-hover:text-primary transition-colors">
-                  {destination.name}
-                </span>
+                {/* Bottom content */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+                  <p className="text-white font-bold text-lg sm:text-xl drop-shadow-md leading-tight">
+                    {destination.name}
+                  </p>
+                  <p className="text-white/70 text-xs sm:text-sm mt-0.5 flex items-center gap-1 translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    Keşfet
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </p>
+                </div>
               </div>
             ))}
           </div>
